@@ -33,7 +33,17 @@ int _printf(const char *format, ...)
 				_putchar('%');
 				count++;
 				i++;
-			}		
+			}
+			else if (format[i] == '%' && format[i + 1] == 'd')
+			{
+				count += print_decimal(va_arg(mo, int));
+				i++;
+			}
+			else if (format[i] == '%' && format[i + 1] == 'i')
+			{
+				count += print_int(va_arg(mo, int));
+				i++;
+			}
 			else
 			{
 				_putchar(format[i]);
