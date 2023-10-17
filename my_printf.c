@@ -8,6 +8,8 @@ int _printf(const char *format, ...)
 {
 	va_list list;
 	int i;
+	char c;
+	char *str;
 
 	va_start(list, format);
 	for (i = 0; format && format[i] != '\0'; i++)
@@ -18,32 +20,29 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			i++;:
+			i++;
 			switch (format[i])
 			{
 			case 'c':
-			{
-				char c = va_arg(list, int);
+			c = va_arg(list, int);
+
 				write(1, &c, 1);
 				break;
-			}
 			case 's':
-			{
-			char *str = va_arg(list, char *);
+			str = va_arg(list, char *);
+
 			if (str)
-				write(1, str, strlen(str));
-			break;
-			}
-			case '%':
 			{
-				write(1, &c, 1);
-				break;
+				write(1, str, strlen(str));
 			}
+
+			break;
+			case '%':
+			write(1, &format[i], 1);
+			break;
 			}
 		}
 	}
 	va_end(list);
-
 	return (i);
 }
-

@@ -2,9 +2,11 @@
 #define MAIN_H
 #include <stdio.h>
 #define PF_SIZE 4
+#include <unistd.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 struct printfunc{
 char *data_type;
 int (*print_function)(void *);
