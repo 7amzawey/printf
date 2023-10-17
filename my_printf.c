@@ -1,56 +1,49 @@
 #include "main.h"
 /**
- * _printf - this function produces the output 
- * according to the format
- * @format: is the format
- * Return: the number of chars printed excluding
- * NULL byte to end to output
+ * _printf - the printing func.
+ * @format: the string to be printed
+ * Return: the num of chars to be printed
  */
 int _printf(const char *format, ...)
 {
+	va_list list;
 	int i;
-	int count = 0;
-	va_list mo;
-	if (format == NULL)
-		return (-1);
-	va_start(mo, format);
 
-	
-		for(i = 0; format[i] != '\0'; i++)
+	va_start(list, format);
+	for (i = 0; format && format[i] != '\0'; i++)
+	{
+		if (format[i] != '%')
 		{
-			if(format[i] == '%' && format[i + 1] == 's')
+			write(1, &format[i], 1);
+		}
+		else
+		{
+			i++;:
+			switch (format[i])
 			{
-			count += print_string(va_arg(mo, char *));
-			i++;
+			case 'c':
+			{
+				char c = va_arg(list, int);
+				write(1, &c, 1);
+				break;
 			}
-			else if (format[i] == '%' && format[i + 1] == 'c')
+			case 's':
 			{
-			count += print_char(va_arg(mo, int));
-			i++;
+			char *str = va_arg(list, char *);
+			if (str)
+				write(1, str, strlen(str));
+			break;
 			}
-			else if (format[i] == '%' && format[i + 1] == '%')
+			case '%':
 			{
-				_putchar('%');
-				count++;
-				i++;
+				write(1, &c, 1);
+				break;
 			}
-			else if (format[i] == '%' && format[i + 1] == 'd')
-			{
-				count += print_decimal(va_arg(mo, int));
-				i++;
-			}
-			else if (format[i] == '%' && format[i + 1] == 'i')
-			{
-				count += print_int(va_arg(mo, int));
-				i++;
-			}
-			else
-			{
-				_putchar(format[i]);
-				count++;
 			}
 		}
-		va_end(mo);
+	}
+	va_end(list);
 
-		return (count);
+	return (i);
 }
+
